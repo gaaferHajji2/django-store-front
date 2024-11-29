@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # ! This Line Added By Jafar Loka
+    'playground'
 ]
 
 MIDDLEWARE = [
