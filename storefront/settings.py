@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # ! This Line Added By Jafar Loka
-    'playground'
+    'playground',
+    'store',
+    'tags'
 ]
 
 MIDDLEWARE = [
