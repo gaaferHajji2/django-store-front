@@ -10,6 +10,10 @@ class Promotion(models.Model):
 class Collection(models.Model):
     title = models.CharField(max_length=255, unique=True);
 
+    featured_product = models.ForeignKey(
+        to='Product', on_delete=models.SET_NULL, null=True, related_name='+'
+    )
+
 class Product(models.Model):
     title = models.CharField(max_length=255, unique=True);
     description = models.TextField();
