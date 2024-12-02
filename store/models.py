@@ -1,5 +1,12 @@
 from django.db import models
 
+
+class Promotion(models.Model):
+    description = models.CharField(max_length=255);
+    discount    = models.FloatField();
+
+    # Also Here We Can Set Start And End Date For Each Promotion
+
 class Collection(models.Model):
     title = models.CharField(max_length=255, unique=True);
 
@@ -11,6 +18,9 @@ class Product(models.Model):
     last_update = models.DateTimeField(auto_now=True);
 
     collection = models.ForeignKey(to=Collection, on_delete=models.PROTECT);
+
+    # promotions = models.ManyToManyField(to=Promotion, related_name='products');
+    promotions = models.ManyToManyField(to=Promotion);
 
 class Customer(models.Model):
 
