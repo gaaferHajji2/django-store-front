@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # ! This Line Added By Jafar Loka
     'playground',
     'store',
-    'tags'
+    'tags',
+    'likes'
 ]
 
 MIDDLEWARE = [
