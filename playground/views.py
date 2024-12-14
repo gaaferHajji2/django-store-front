@@ -37,9 +37,12 @@ def say_hello(request):
 def say_hello_2(request):
     product = Product.objects.filter(pk=3).first();
 
+    product_02 = Product.objects.filter(pk=0).exists();
+
     if product is None:
         print("No Product Found");
     
     print("The Product Data Is: ", product.description);
+    print("The Check Of Product Exists is: ", product_02);
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka-02'});
