@@ -33,3 +33,13 @@ def say_hello(request):
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka'});
     # return render(request, 'hello.html');
+
+def say_hello_2(request):
+    product = Product.objects.filter(pk=3).first();
+
+    if product is None:
+        print("No Product Found");
+    
+    print("The Product Data Is: ", product.description);
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka-02'});
