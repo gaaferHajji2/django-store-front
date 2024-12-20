@@ -149,3 +149,8 @@ def say_hello_14(request):
     products_query_set = Product.objects.order_by('unit_price', '-title').reverse();
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
+
+def say_hello_15(request):
+    products_query_set = Product.objects.filter(collection__id=6).order_by('unit_price');
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
