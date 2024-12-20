@@ -136,4 +136,16 @@ def say_hello_12(request):
     # products_query_set = Product.objects.filter(inventory=F('unit_price'));
     products_query_set = Product.objects.filter(inventory=F('collection__id'));
 
-    return render(request, 'hello.html', { 'name': 'Jafar Loka Test F-Class', 'products': products_query_set});
+    return render(request, 'hello.html', 
+        { 'name': 'Jafar Loka Test F-Class', 'products': products_query_set}
+    );
+
+def say_hello_13(request):
+    products_query_set = Product.objects.order_by('unit_price', '-title');
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
+
+def say_hello_14(request):
+    products_query_set = Product.objects.order_by('unit_price', '-title').reverse();
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
