@@ -126,3 +126,8 @@ def say_hello_10(request):
     products_query_set = Product.objects.filter(Q(inventory__lt=10) | Q(unit_price__lt=20));
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
+
+def say_hello_11(request):
+    products_query_set = Product.objects.filter(Q(inventory__lt=10) | ~Q(unit_price__lt=20));
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
