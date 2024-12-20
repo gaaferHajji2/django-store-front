@@ -15,4 +15,5 @@ urlpatterns = [
     path('hello-09/', views.say_hello_9),
     path('hello-10/', views.say_hello_10),
     path('hello-11/', views.say_hello_11),
+    path('hello-12/', views.say_hello_12),
 ];

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist;
-from django.db.models import Q;
+from django.db.models import Q, F;
 
 from store.models import Product
 
@@ -131,3 +131,9 @@ def say_hello_11(request):
     products_query_set = Product.objects.filter(Q(inventory__lt=10) | ~Q(unit_price__lt=20));
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
+
+def say_hello_12(request):
+    # products_query_set = Product.objects.filter(inventory=F('unit_price'));
+    products_query_set = Product.objects.filter(inventory=F('collection__id'));
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka Test F-Class', 'products': products_query_set});
