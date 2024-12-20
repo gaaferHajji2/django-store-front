@@ -15,14 +15,14 @@ def say_hello(request):
     try:
         product = Product.objects.get(id=1);
     
-        print("The Query Data Is: ", product.title);
+        # print("The Query Data Is: ", product.title);
     except ObjectDoesNotExist as e:
         print("Exception Occurred-01: ", e.__str__());
     
     try:
         product_2 = Product.objects.get(pk=0);
     
-        print("The Query Data With Pk is: ", product_2.title);
+        # print("The Query Data With Pk is: ", product_2.title);
     except ObjectDoesNotExist as e:
         print("Exception Occurred-02: ", e.__str__());
 
@@ -45,8 +45,8 @@ def say_hello_2(request):
     if product is None:
         print("No Product Found");
     
-    print("The Product Data Is: ", product.description);
-    print("The Check Of Product Exists is: ", exists);
+    # print("The Product Data Is: ", product.description);
+    # print("The Check Of Product Exists is: ", exists);
 
     product_query_set = Product.objects.filter(unit_price__gt=20);
     product_query_set_02 = Product.objects.filter(unit_price__lte=20);
@@ -112,3 +112,13 @@ def say_hello_7(request):
             'products': list(product_query_set_with_collection)
         }
     )
+
+def say_hello_8(request):
+    products = Product.objects.filter(inventory__lt=10, unit_price__lt=20);
+
+    return render(request, 'hello.html', { 'products': products, 'name': 'Jafar Loka'});
+
+def say_hello_9(request):
+    products = Product.objects.filter(inventory__lt=10, unit_price__lt=20);
+
+    return render(request, 'hello.html', { 'products': products, 'name': 'Jafar Loka'});
