@@ -154,3 +154,13 @@ def say_hello_15(request):
     products_query_set = Product.objects.filter(collection__id=6).order_by('unit_price');
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set});
+
+def say_hello_16(request):
+    product = Product.objects.earliest('unit_price');
+    product_2 = Product.objects.latest('unit_price');
+
+    print("The Product Title Is: ", product.title);
+
+    print("The Product-02 Title Is: ", product_2.title);
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka' });
