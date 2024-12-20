@@ -20,4 +20,6 @@ urlpatterns = [
     path('hello-14/', views.say_hello_14),
     path('hello-15/', views.say_hello_15),
     path('hello-16/', views.say_hello_16),
+    path('hello-17/', views.say_hello_17),
+    path('hello-18/', views.say_hello_18),
 ];
