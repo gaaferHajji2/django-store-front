@@ -174,3 +174,10 @@ def say_hello_18(request):
     products_query_set = Product.objects.order_by('unit_price', '-title')[5:10] 
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 
+
+def say_hello_19(request):
+    products_query_set = Product.objects.values('id', 'title')
+
+    print("The Query For Select Specific Fields Is: ", products_query_set.query)
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 
