@@ -213,6 +213,8 @@ def say_hello_22(request):
 
     # print("The First Order Item Is: ", order_item_queryset[0])
 
-    products_queryset = Product.objects.values('id', 'title').filter(id__in=order_item_queryset)
+    products_queryset = Product.objects.values('id', 'title')\
+        .filter(id__in=order_item_queryset)\
+        .order_by('title')
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_queryset })
