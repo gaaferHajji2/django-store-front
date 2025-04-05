@@ -183,10 +183,25 @@ def say_hello_19(request):
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 
 
 def say_hello_20(request):
+    # This Will Return Dict When Evaluated
     products_query_set = Product.objects.values('id', 'title', 'collection__title')
 
     # print("The Query For Select Specific Fields Is: ", products_query_set.query)
 
     # print("The First Product Is: ", products_query_set[0])
 
-    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set})
+
+def say_hello_21(request):
+    # This Will Return Tuple Of Values When Evaluated
+    # id --> result_tuple[0]
+    # title --> result_tuple[1]
+    # collection__title --> result_tuple[2]
+    products_query_set = Product.objects.values_list('id', 'title', 'collection__title')
+
+    # print("The Query For Select Specific Fields Is: ", products_query_set.query)
+
+    # print("The First Product Is: ", products_query_set[0])
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_query_set})
+

@@ -28,6 +28,16 @@
     {% endfor %}
 
 {% endif %}
+
+{% if products_list %}
+
+    {% for product in products_list %}
+        <li>{{ product }}</li>
+
+        <hr />
+    {% endfor %}
+
+{% endif %}
 </body>
 </html>
 
