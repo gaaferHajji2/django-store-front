@@ -181,3 +181,12 @@ def say_hello_19(request):
     print("The Query For Select Specific Fields Is: ", products_query_set.query)
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 
+
+def say_hello_20(request):
+    products_query_set = Product.objects.values('id', 'title', 'collection__title')
+
+    # print("The Query For Select Specific Fields Is: ", products_query_set.query)
+
+    # print("The First Product Is: ", products_query_set[0])
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products': products_query_set}) 

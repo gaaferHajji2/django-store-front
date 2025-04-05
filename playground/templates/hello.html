@@ -16,7 +16,13 @@
 {% if products %}
 
     {% for product in products %}
-        <li>{{ product.title }}</li>
+        <li>The Product Title: {{ product.title }}</li>
+
+        {% if product.collection__title %}
+            <li>The Collection Title: {{ product.collection__title }}</li>
+        {% endif %}
+
+        <hr />
         <!-- <li>{{ product.description }}</li> -->
         <!-- <hr> -->
     {% endfor %}
