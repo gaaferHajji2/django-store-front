@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
 
-from store.models import Product, OrderItem
+from store.models import Product, OrderItem, Order
 
 # Create your views here.
 def say_hello(request):
@@ -218,3 +218,27 @@ def say_hello_22(request):
         .order_by('title')
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_queryset })
+
+def say_hello_23(request):
+    products_queryset = Product.objects.select_related('collection').all()
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_queryset })
+
+def say_hello_24(request):
+    products_queryset = Product.objects.prefetch_related('promotions').all()
+
+    print("The Query Using prefetch_related Is: ", products_queryset)
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka' })
+
+def say_hello_25(request):
+    # orderitem_set Will Be Created From Django AS Reverse Of Relationships
+    orders_queryset = Order.objects\
+        .select_related('customer')\
+        .prefetch_related('orderitem_set__product')\
+        .order_by('-placed_at')[:5]
+    
+    # print("The Orders Query Set Is: ", orders_queryset[0])
+    
+    return render(request, 'hello.html', { 'name': 'Jafar Loka ', 'orders': orders_queryset })
+

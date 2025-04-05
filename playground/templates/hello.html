@@ -32,7 +32,21 @@
 {% if products_list %}
 
     {% for product in products_list %}
-        <li>{{ product }}</li>
+        <li>{{ product.title }}-->{{ product.collection.title}}</li>
+
+        <hr />
+    {% endfor %}
+
+{% endif %}
+
+{% if orders %}
+
+    {% for order in orders %}
+        <li>{{ order.payment_status }}-->{{ order.customer.first_name }}</li>
+
+        {% for item in order.orderitem_set.all %}
+            <li>Product Title Is: {{ item.product.title }}</li>
+        {% endfor %}
 
         <hr />
     {% endfor %}
