@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
 
-from store.models import Product
+from store.models import Product, OrderItem
 
 # Create your views here.
 def say_hello(request):
@@ -205,3 +205,14 @@ def say_hello_21(request):
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_query_set})
 
+def say_hello_22(request):
+    # When We Create Relation Between OrderItem And Product, Django Will Create
+    # product_id Column At Runtime.
+    order_item_queryset = OrderItem.objects.values('product_id').distinct()
+    # order_item_queryset = OrderItem.objects.values('product__id').distinct()
+
+    # print("The First Order Item Is: ", order_item_queryset[0])
+
+    products_queryset = Product.objects.values('id', 'title').filter(id__in=order_item_queryset)
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_list': products_queryset })
