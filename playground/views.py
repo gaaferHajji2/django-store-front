@@ -245,11 +245,15 @@ def say_hello_25(request):
     return render(request, 'hello.html', { 'name': 'Jafar Loka ', 'orders': orders_queryset })
 
 def say_hello_26(request):
-    products_count = Product.objects.aggregate(Count('id'))
-    products_count_2 = Product.objects.aggregate(count=Count('id'))
+    products_count = Product.objects\
+        .aggregate(
+            Count('id'), 
+            count=Count('id'), 
+            min_price=Min('unit_price'),
+            max_price=Max('unit_price'),
+        )
 
     return render(request, 'hello.html', { 
         'products_count': products_count, 
         'name': 'Jafar-Loka',
-        'products_count_2': products_count_2,
     })

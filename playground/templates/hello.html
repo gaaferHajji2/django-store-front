@@ -55,10 +55,9 @@
 
 {% if products_count %}
     <h1>The Products Count Is: {{ products_count.id__count }}</h1>
-{% endif %}
-
-{% if products_count_2 %}
-    <h1>The Products Count With Keyword Is: {{ products_count_2.count }}</h1>
+    <h1>The Products Count With Keyword Is: {{ products_count.count }}</h1>
+    <h1>The Min Price Is: {{ products_count.min_price }}</h1>
+    <h1>The Max Price Is: {{ products_count.max_price }}</h1>
 {% endif %}
 </body>
 </html>
