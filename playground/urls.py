@@ -29,4 +29,5 @@ urlpatterns = [
     path('hello-23/', views.say_hello_23),
     path('hello-24/', views.say_hello_24),
     path('hello-25/', views.say_hello_25),
+    path('hello-26/', views.say_hello_26),
 ]

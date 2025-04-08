@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
 
+from django.db.models.aggregates import Count, Sum, Max, Min, Avg
+
 from store.models import Product, OrderItem, Order
 
 # Create your views here.
@@ -242,3 +244,7 @@ def say_hello_25(request):
     
     return render(request, 'hello.html', { 'name': 'Jafar Loka ', 'orders': orders_queryset })
 
+def say_hello_26(request):
+    products_count = Product.objects.aggregate(Count('id'))
+
+    return render(request, 'hello.html', { 'products_count': products_count, 'name': 'Jafar-Loka'})
