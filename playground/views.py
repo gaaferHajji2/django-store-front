@@ -246,5 +246,10 @@ def say_hello_25(request):
 
 def say_hello_26(request):
     products_count = Product.objects.aggregate(Count('id'))
+    products_count_2 = Product.objects.aggregate(count=Count('id'))
 
-    return render(request, 'hello.html', { 'products_count': products_count, 'name': 'Jafar-Loka'})
+    return render(request, 'hello.html', { 
+        'products_count': products_count, 
+        'name': 'Jafar-Loka',
+        'products_count_2': products_count_2,
+    })
