@@ -59,6 +59,26 @@
     <h1>The Min Price Is: {{ products_count.min_price }}</h1>
     <h1>The Max Price Is: {{ products_count.max_price }}</h1>
 {% endif %}
+
+{% if result_1 %}
+    <h1>The Number Of Orders: {{ result_1.count }}</h1>
+{% endif %}
+
+{% if result_2 %}
+    <h1>The Number Of Product 1 Sold: {{ result_2.units_sold }}</h1>
+{% endif %}
+
+{% if result_3 %}
+    <h1>The Number Of Orders For Customer 1: {{ result_3.count }}</h1>
+{% endif %}
+
+{% if result_4 %}
+    <h1>The Min Price Of Products In Collection 3: {{ result_4.min_price }}</h1>
+
+    <h1>The Avg Price Of Products In Collection 3: {{ result_4.avg_price }}</h1>
+
+    <h1>The Max Price Of Products In Collection 3: {{ result_4.max_price }}</h1>
+{% endif %}
 </body>
 </html>
 

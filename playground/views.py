@@ -257,3 +257,24 @@ def say_hello_26(request):
         'products_count': products_count, 
         'name': 'Jafar-Loka',
     })
+
+def say_hello_27(request):
+    result_1 = Order.objects.aggregate(count=Count('id'))
+
+    result_2 = OrderItem.objects.filter(product__id = 1).aggregate(units_sold=Sum('quantity'))
+
+    result_3 = Order.objects.filter(customer__id=1).aggregate(count=Count('id'))
+
+    result_4 = Product.objects.filter(collection__id = 3)\
+    .aggregate(
+        min_price   =Min('unit_price'), 
+        avg_price   = Avg('unit_price'), 
+        max_price   =Max('unit_price'))
+    
+    return render(request, 'hello.html', {
+        'name': 'Jafar Loka',
+        'result_1': result_1,
+        'result_2': result_2,
+        'result_3': result_3,
+        'result_4': result_4
+    })
