@@ -32,4 +32,6 @@ urlpatterns = [
     path('hello-26/', views.say_hello_26),
     path('hello-27/', views.say_hello_27),
     path('hello-28/', views.say_hello_28),
+    path('hello-29/', views.say_hello_29),
+    path('hello-30/', views.say_hello_30),
 ]

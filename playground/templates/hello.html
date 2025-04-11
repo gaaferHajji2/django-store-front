@@ -85,9 +85,27 @@
     {% for customer in customers %}
         <li>{{ customer.first_name }}==>{{ customer.is_new}} ==> {{ customer.new_id }}</li>
         <li>The Full Name Is: {{ customer.full_name }} ==> {{ customer.full_name_02 }}</li>
+
+        {% if customer.order_count %}
+            <li>The Number Of Orders: {{ customer.order_count }}</li>
+        {% endif %}
+
+        {% if customer.discount_price %}
+            <li>The Discount Price: {{ customer.discount_price }}</li>
+        {% endif %}
         <hr />
     {% endfor %}
 
+{% endif %}
+
+{% if products_02 %}
+
+    {% for product in products_02 %}
+        <li>The Product Title Is: {{ product.title }}</li>
+        <li>The Product Unit Price Is: {{ product.unit_price }}</li>
+        <li>The Product Discount Price Is: {{ product.discount_price }}</li>
+        <hr />
+    {% endfor %}
 {% endif %}
 </body>
 </html>

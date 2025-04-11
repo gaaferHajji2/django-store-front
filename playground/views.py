@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, F, Value, Func
+from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 
 from django.db.models.aggregates import Count, Sum, Max, Min, Avg
 
@@ -292,9 +292,26 @@ def say_hello_28(request):
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'customers': queryset })
 
 def say_hello_29(request):
-    
+
     queryset = Customer.objects.annotate(
-        order_count = Count('order_set')
-    )
+        is_new=Value(True), 
+        new_id=F('id') + 1,
+        full_name= Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'),
+        full_name_02 = Concat('first_name', Value(' '), 'last_name'),
+        order_count = Count('order'))
+
+    # print("The First Object Is: ", queryset[0].__dict__)
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'customers': queryset })
+
+def say_hello_30(request):
+
+    queryset = Product.objects.annotate(
+        discount_price = ExpressionWrapper(
+            F('unit_price') * 0.8, 
+            output_field=DecimalField())
+    )
+
+    # print("The First Object Is: ", queryset[0].__dict__)
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_02': queryset })
