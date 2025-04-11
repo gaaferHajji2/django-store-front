@@ -321,15 +321,7 @@ def say_hello_30(request):
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_02': queryset })
 
 def say_hello_31(request):
-    content_type = ContentType.objects.get_for_model(Product)
+    
+    taggedItem = TaggedItem.objects.get_tags_for(Product, 1)
 
-    # Here We Use select_related To Avoid The Problems Of 
-    # Loading Many Tags
-    tagItems = TaggedItem.objects\
-        .select_related('tag')\
-        .filter(
-            content_type = content_type,
-            object_id=1
-    )
-
-    return render(request, 'hello.html', {'name': 'Jafar Loka', 'tagsItem': tagItems})
+    return render(request, 'hello.html', {'name': 'Jafar Loka', 'tagsItem': taggedItem})
