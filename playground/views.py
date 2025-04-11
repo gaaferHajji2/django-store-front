@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, F
+from django.db.models import Q, F, Value, Func
 
 from django.db.models.aggregates import Count, Sum, Max, Min, Avg
 
-from store.models import Product, OrderItem, Order
+from django.db.models.functions import Concat
+
+from store.models import Product, OrderItem, Order, Customer
 
 # Create your views here.
 def say_hello(request):
@@ -278,3 +280,21 @@ def say_hello_27(request):
         'result_3': result_3,
         'result_4': result_4
     })
+
+def say_hello_28(request):
+    queryset = Customer.objects.annotate(
+        is_new=Value(True), 
+        new_id=F('id') + 1,
+        full_name= Func(F('first_name'), Value(' '), F('last_name'), function='CONCAT'),
+        full_name_02 = Concat('first_name', Value(' '), 'last_name')
+    )
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'customers': queryset })
+
+def say_hello_29(request):
+    
+    queryset = Customer.objects.annotate(
+        order_count = Count('order_set')
+    )
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'customers': queryset })
