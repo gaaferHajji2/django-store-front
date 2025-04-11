@@ -1,13 +1,18 @@
 from django.shortcuts import render
 # from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
+
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 
 from django.db.models.aggregates import Count, Sum, Max, Min, Avg
 
 from django.db.models.functions import Concat
 
+from django.contrib.contenttypes.models import ContentType
+
 from store.models import Product, OrderItem, Order, Customer
+
+from tags.models import TaggedItem
 
 # Create your views here.
 def say_hello(request):
@@ -305,7 +310,6 @@ def say_hello_29(request):
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'customers': queryset })
 
 def say_hello_30(request):
-
     queryset = Product.objects.annotate(
         discount_price = ExpressionWrapper(
             F('unit_price') * 0.8, 
@@ -315,3 +319,17 @@ def say_hello_30(request):
     # print("The First Object Is: ", queryset[0].__dict__)
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'products_02': queryset })
+
+def say_hello_31(request):
+    content_type = ContentType.objects.get_for_model(Product)
+
+    # Here We Use select_related To Avoid The Problems Of 
+    # Loading Many Tags
+    tagItems = TaggedItem.objects\
+        .select_related('tag')\
+        .filter(
+            content_type = content_type,
+            object_id=1
+    )
+
+    return render(request, 'hello.html', {'name': 'Jafar Loka', 'tagsItem': tagItems})
