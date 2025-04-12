@@ -2,7 +2,7 @@ from django.shortcuts import render
 # from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.db import transaction
+from django.db import transaction, connection
 
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 
@@ -386,6 +386,25 @@ def test_transaction_example_1(request):
     return render(request, 'hello.html',{ 'name': 'Jafar Loka' })
 
 def test_raw_sql(request):
-    products = Product.objects.raw('SELECT * FROM store_order')
+    products = Product.objects.raw('SELECT * FROM store_product')
 
     return render(request, 'hello.html', {'name': 'Jafar Loka', 'raw_result': products})
+
+def test_raw_sql_2(request):
+    # cursor = connection.cursor()
+
+    # products = cursor.execute('SELECT id, title FROM store_product')
+
+    # row = cursor.fetchone() # In This Way We Return The Result
+
+
+    # cursor.close() # In Production We Use try-except-finally Block, 
+    # And Close The Cursor In Finally-Block, OR We Can Use 
+    # with-Keyword For Context Manager.
+
+    # The Best Way To Use Cursor, By Using with-Keyword
+    with connection.cursor() as cursor:
+        cursor.callproc('Procedure Name Here', params=[1, 2, 'a'])
+
+
+    return render(request, 'hello.html', {'name': 'Jafar Loka'})
