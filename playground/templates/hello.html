@@ -107,6 +107,12 @@
         <hr />
     {% endfor %}
 {% endif %}
+
+{% if collection %}
+    <li>New Collection ID is: {{ collection.id }}</li>
+    <li>New Collection Title is: {{ collection.title }}</li>
+    <li>New Collection Featured Product Title is: {{ collection.featured_product.title }}</li>
+{% endif %}
 </body>
 </html>
 

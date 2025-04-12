@@ -329,10 +329,14 @@ def say_hello_31(request):
 def save_collection_example_1(request):
     collection = Collection()
 
-    collection.title = "Video Games"
+    collection.title = "Video Games-05"
 
     collection.featured_product = Product(pk=1)
 
     collection.save()
 
-    return render(request, 'hello.html', { 'name': 'Jafar Loka' })
+    # collection = collection.objects.select_related('featured_product')
+
+    print("The New Collection Is: ", collection.__dict__)
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka', 'collection': collection })
