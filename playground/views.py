@@ -2,6 +2,8 @@ from django.shortcuts import render
 # from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.db import transaction
+
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 
 from django.db.models.aggregates import Count, Sum, Max, Min, Avg
@@ -365,3 +367,20 @@ def update_collection_example_2(request):
     )
 
     return render(request, 'hello.html', { 'name':'Jafar Loka' })
+
+# This Can Be Used AS Decorator OR Using With-Keyword
+def test_transaction_example_1(request):
+
+    with transaction.atomic():
+        order = Order()
+        order.customer_id = 1
+        order.save()
+
+        orderItem = OrderItem()
+        orderItem.order = order
+        orderItem.product_id = -1
+        orderItem.quantity = 1
+        orderItem.unit_price = 1
+        orderItem.save()
+
+    return render(request, 'hello.html',{ 'name': 'Jafar Loka' })

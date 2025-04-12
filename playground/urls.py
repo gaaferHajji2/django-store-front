@@ -39,4 +39,9 @@ urlpatterns = [
     path('collection-01/', views.save_collection_example_1),
     path('collection-02/', views.update_collection_example_1),
     path('collection-03/', views.update_collection_example_2),
+
+    # Transactions
+    path('transaction-01/', views.test_transaction_example_1),
+
+    # Raw SQL 
 ]
