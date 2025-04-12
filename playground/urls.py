@@ -43,5 +43,6 @@ urlpatterns = [
     # Transactions
     path('transaction-01/', views.test_transaction_example_1),
 
-    # Raw SQL 
+    # Raw SQL
+    path('raw-sql-01/', views.test_raw_sql),
 ]

@@ -384,3 +384,8 @@ def test_transaction_example_1(request):
         orderItem.save()
 
     return render(request, 'hello.html',{ 'name': 'Jafar Loka' })
+
+def test_raw_sql(request):
+    products = Product.objects.raw('SELECT * FROM store_order')
+
+    return render(request, 'hello.html', {'name': 'Jafar Loka', 'raw_result': products})
