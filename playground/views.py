@@ -10,7 +10,7 @@ from django.db.models.functions import Concat
 
 from django.contrib.contenttypes.models import ContentType
 
-from store.models import Product, OrderItem, Order, Customer
+from store.models import Product, OrderItem, Order, Customer, Collection
 
 from tags.models import TaggedItem
 
@@ -325,3 +325,14 @@ def say_hello_31(request):
     taggedItem = TaggedItem.objects.get_tags_for(Product, 1)
 
     return render(request, 'hello.html', {'name': 'Jafar Loka', 'tagsItem': taggedItem})
+
+def save_collection_example_1(request):
+    collection = Collection()
+
+    collection.title = "Video Games"
+
+    collection.featured_product = Product(pk=1)
+
+    collection.save()
+
+    return render(request, 'hello.html', { 'name': 'Jafar Loka' })

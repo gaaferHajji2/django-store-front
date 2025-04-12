@@ -34,4 +34,7 @@ urlpatterns = [
     path('hello-28/', views.say_hello_28),
     path('hello-29/', views.say_hello_29),
     path('hello-30/', views.say_hello_30),
+
+    # Other Operations
+    path('collection-01/', views.save_collection_example_1),
 ]
