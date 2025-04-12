@@ -337,6 +337,31 @@ def save_collection_example_1(request):
 
     # collection = collection.objects.select_related('featured_product')
 
-    print("The New Collection Is: ", collection.__dict__)
+    # print("The New Collection Is: ", collection.__dict__)
 
     return render(request, 'hello.html', { 'name': 'Jafar Loka', 'collection': collection })
+
+def update_collection_example_1(request):
+    # collection =  Collection(pk=15) # This Will be Caused Issue Of Making Other
+    # Fields Empty
+
+    collection = Collection.objects\
+        .select_related('featured_product')\
+        .get(pk=16) # In This Way We Can Populate All Fields
+
+    collection.title = "New Video Games-07"
+
+    collection.save()
+
+    return render(request, 'hello.html', { 'name':'Jafar Loka', 'collection': collection })
+
+def update_collection_example_2(request):
+    # collection =  Collection(pk=15) # This Will be Caused Issue Of Making Other
+    # Fields Empty
+
+    Collection.objects.filter(pk=18).update(
+        title="New Video Games-18",
+        featured_product=None
+    )
+
+    return render(request, 'hello.html', { 'name':'Jafar Loka' })
