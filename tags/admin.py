@@ -4,6 +4,6 @@ from . import models
 
 # Register your models here.
 
-admin.register(models.Tag)
+admin.site.register(models.Tag)
 
-admin.register(models.TaggedItem)
+admin.site.register(models.TaggedItem)
