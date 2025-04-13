@@ -14,6 +14,9 @@ class Collection(models.Model):
         to='Product', on_delete=models.SET_NULL, null=True, related_name='+'
     )
 
+    def __str__(self):
+        return self.title
+
 class Product(models.Model):
     title = models.CharField(max_length=255)
 
@@ -28,6 +31,9 @@ class Product(models.Model):
 
     # promotions = models.ManyToManyField(to=Promotion, related_name='products')
     promotions = models.ManyToManyField(to=Promotion)
+
+    def __str__(self):
+        return str(self.id) + ' - ' + self.title
 
 class Customer(models.Model):
 
