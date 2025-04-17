@@ -34,11 +34,17 @@ class CustomerAdmin(admin.ModelAdmin):
 
     list_per_page = 10
 
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = [ 'id', 'placed_at', 'customer' ]
+
+    list_per_page = 10
+
 # Register your models here.
 
 # admin.site.register(models.Collection)
 admin.site.register(models.Product, ProductAdmin)
-admin.site.register(models.Order)
+# admin.site.register(models.Order)
 admin.site.register(models.OrderItem)
 # admin.site.register(models.Customer)
 admin.site.register(models.Address)
