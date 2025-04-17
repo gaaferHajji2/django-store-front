@@ -3,11 +3,24 @@ from django.contrib import admin
 from . import models
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = [ 'id', 'title', 'unit_price', ]
+    list_display = [ 'id', 'title', 'unit_price', 'inventory_status', 'collection_title']
 
     list_editable = [ 'unit_price' ]
 
     list_per_page = 10
+
+    list_select_related = ['collection']
+
+    @admin.display(ordering='inventory')
+    def inventory_status(self, product: models.Product):
+        if product.inventory < 10:
+            return 'Low'
+        
+        return 'OK'
+    
+    @admin.display(ordering='collection__title')
+    def collection_title(self, product: models.Product):
+        return product.collection.title
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
