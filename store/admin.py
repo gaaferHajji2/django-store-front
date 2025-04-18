@@ -1,5 +1,11 @@
 from django.contrib import admin
 
+from django.db.models.aggregates import Count
+
+from django.utils.html import format_html, urlencode
+
+from django.urls import reverse
+
 from . import models
 
 class ProductAdmin(admin.ModelAdmin):
@@ -24,7 +30,28 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title']
+    list_display = [ 'id', 'title', 'products_count' ]
+
+    list_per_page = 5
+
+    @admin.display(ordering='products_count')
+    def products_count(self, collection):
+
+        url = (
+            reverse('admin:store_product_changelist')
+            + '?'
+            + urlencode({
+                'collection__id': str(collection.id)
+            })
+        )
+
+        return format_html('<a href="{}">{}</a>', url, collection.products_count)
+    
+    # In This Way We Can Override The Default Query Set
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            products_count=Count('product')
+        )
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -39,6 +66,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'placed_at', 'customer' ]
 
     list_per_page = 10
+
+    list_select_related = [ 'customer' ]
 
 # Register your models here.
 
