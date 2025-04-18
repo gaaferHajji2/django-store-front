@@ -13,7 +13,7 @@ from . import models
 class InventoryFilter(admin.SimpleListFilter):
 
     title = "Inventory"
-
+    
     parameter_name = "Inventory"
 
     def lookups(self, request, model_admin):
@@ -21,7 +21,7 @@ class InventoryFilter(admin.SimpleListFilter):
             ('<10', 'Low'),
             ('>=10', 'OK')
         ]
-
+    
     def queryset(self, request, queryset: QuerySet):
         if self.value() == '<10':
             return queryset.filter(inventory__lt=10)
