@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 
 from django.db.models import QuerySet
 
@@ -39,6 +39,8 @@ class ProductAdmin(admin.ModelAdmin):
 
     list_select_related = ['collection']
 
+    actions = ['clear_inventory']
+
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product):
         if product.inventory < 10:
@@ -49,7 +51,17 @@ class ProductAdmin(admin.ModelAdmin):
     @admin.display(ordering='collection__title')
     def collection_title(self, product: models.Product):
         return product.collection.title
+    
+    @admin.action(description="Clear Inventory")
+    def clear_inventory(self, request, queryset: QuerySet):
+        update_count = queryset.update(inventory=0)
 
+        self.message_user(
+            request, 
+            message=f"{update_count} Has Been Cleared", 
+            level=messages.SUCCESS
+        )
+        
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'title', 'products_count' ]
