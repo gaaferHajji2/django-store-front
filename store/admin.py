@@ -41,6 +41,14 @@ class ProductAdmin(admin.ModelAdmin):
 
     actions = ['clear_inventory']
 
+    prepopulated_fields = {
+        'slug': ['title']
+    }
+
+    autocomplete_fields = ['collection']
+
+    search_fields = ['title']
+
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product):
         if product.inventory < 10:
@@ -67,6 +75,8 @@ class CollectionAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'title', 'products_count' ]
 
     list_per_page = 5
+
+    search_fields = ['title']
 
     @admin.display(ordering='products_count')
     def products_count(self, collection):
@@ -113,11 +123,26 @@ class CustomerAdmin(admin.ModelAdmin):
 
         return format_html('<a href="{}">{}</a>', url, customer.orders)
 
+class OrderItemInline(admin.TabularInline):
+    autocomplete_fields = ['product']
+    model = models.OrderItem
+
+    # The Minimum And Maximum Of OrderItems To Add With Order
+    min_num = 1
+
+    max_num = 10
+
+    extra = 1 # The Number Of Extra Fields To Add With Order
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'placed_at', 'customer' ]
 
     list_per_page = 10
+
+    autocomplete_fields = [ 'customer' ]
+
+    inlines = [ OrderItemInline ]
 
 
 
