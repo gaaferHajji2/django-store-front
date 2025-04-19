@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # ! This Line Added By Jafar Loka
     'playground',
     'store',
+    'store_custom'
     'tags',
     'likes'
 ]

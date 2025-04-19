@@ -32,16 +32,6 @@ class InventoryFilter(admin.SimpleListFilter):
         elif self.value() == '>=10':
             return queryset.filter(inventory__gte=10)
 
-class TagInline(GenericTabularInline):
-    model = tags.models.TaggedItem
-
-    min_num = 1
-
-    max_num = 10
-
-    extra = 0
-
-    autocomplete_fields = ['tag']
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'title', 'unit_price', 'inventory_status', 'collection_title']
@@ -64,7 +54,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     search_fields = ['title']
 
-    inlines = [ TagInline ]
+    # inlines = [ TagInline ]
 
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product):
