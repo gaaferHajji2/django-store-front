@@ -1,5 +1,7 @@
 from django.contrib import admin, messages
 
+from django.contrib.contenttypes.admin import GenericTabularInline
+
 from django.db.models import QuerySet
 
 from django.db.models.aggregates import Count
@@ -7,6 +9,8 @@ from django.db.models.aggregates import Count
 from django.utils.html import format_html, urlencode
 
 from django.urls import reverse
+
+import tags.models
 
 from . import models
 
@@ -28,6 +32,17 @@ class InventoryFilter(admin.SimpleListFilter):
         elif self.value() == '>=10':
             return queryset.filter(inventory__gte=10)
 
+class TagInline(GenericTabularInline):
+    model = tags.models.TaggedItem
+
+    min_num = 1
+
+    max_num = 10
+
+    extra = 0
+
+    autocomplete_fields = ['tag']
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = [ 'id', 'title', 'unit_price', 'inventory_status', 'collection_title']
 
@@ -48,6 +63,8 @@ class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ['collection']
 
     search_fields = ['title']
+
+    inlines = [ TagInline ]
 
     @admin.display(ordering='inventory')
     def inventory_status(self, product: models.Product):

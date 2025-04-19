@@ -4,6 +4,9 @@ from . import models
 
 # Register your models here.
 
-admin.site.register(models.Tag)
+class TagAdmin(admin.ModelAdmin):
+    search_fields = ['label']
 
-admin.site.register(models.TaggedItem)
+    list_per_page = 10
+
+admin.site.register(models.Tag, TagAdmin)
