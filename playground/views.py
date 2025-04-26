@@ -10,8 +10,6 @@ from django.db.models.aggregates import Count, Sum, Max, Min, Avg
 
 from django.db.models.functions import Concat
 
-from django.contrib.contenttypes.models import ContentType
-
 from store.models import Product, OrderItem, Order, Customer, Collection
 
 from tags.models import TaggedItem
