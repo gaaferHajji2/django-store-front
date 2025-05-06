@@ -1,5 +1,9 @@
 from django.shortcuts import get_object_or_404
 
+from django.db.models import F
+
+from django.db.models.aggregates import Count
+
 # from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
@@ -59,7 +63,7 @@ def collection_detail(request, pk:int):
 @api_view(['GET', 'POST'])
 def collection_list(request):
     if request.method == 'GET':
-        queryset = Collection.objects.all();
+        queryset = Collection.objects.annotate(products_count=Count('product')).all();
 
         serializer = CollectionSerializer(queryset, many=True)
 
