@@ -78,7 +78,7 @@ def collection_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def collection_detail(request, pk: int):
     collection = get_object_or_404(
-        Collection.objects.annotate(products_count=Count('product')), 
+        Collection.objects.annotate(products_count=Count('products')), 
         pk=pk
     )
 
