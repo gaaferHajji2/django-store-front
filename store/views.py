@@ -64,3 +64,18 @@ def collection_list(request):
         serializer = CollectionSerializer(queryset, many=True)
 
         return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = CollectionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def collection_detail(request, id: int):
+    collection = get_object_or_404(Collection, pk=id)
+    if request.method == 'GET':
+        serializer = CollectionSerializer(collection)
+
+        return Response(serializer.data)
+    
