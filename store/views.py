@@ -63,7 +63,7 @@ def product_detail(request, id):
 @api_view(['GET', 'POST'])
 def collection_list(request):
     if request.method == 'GET':
-        queryset = Collection.objects.annotate(products_count=Count('product')).all();
+        queryset = Collection.objects.annotate(products_count=Count('products')).all();
 
         serializer = CollectionSerializer(queryset, many=True)
 
@@ -97,7 +97,7 @@ def collection_detail(request, pk: int):
         return Response(serializer.data)
     
     elif request.method == 'DELETE':
-        if collection.product_set.count() > 0:
+        if collection.products.count() > 0:
             return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
         collection.delete()
