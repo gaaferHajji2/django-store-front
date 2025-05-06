@@ -45,8 +45,6 @@ def product_detail(request, id):
     
     elif request.method == 'DELETE':
 
-        print("The Order Item Count Is: ", product.orderitem_set.count())
-
         if product.orderitems.count() > 0:
             return Response({'error': 'product cannot be deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
