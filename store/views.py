@@ -8,9 +8,9 @@ from rest_framework.response import Response
 
 from rest_framework import status
 
-from .models import Product
+from .models import Product, Collection
 
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, CollectionSerializer
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -55,3 +55,12 @@ def product_detail(request, id):
 @api_view()
 def collection_detail(request, pk:int):
     return Response('Ok')
+
+@api_view(['GET', 'POST'])
+def collection_list(request):
+    if request.method == 'GET':
+        queryset = Collection.objects.all();
+
+        serializer = CollectionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
