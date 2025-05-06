@@ -56,9 +56,9 @@ def product_detail(request, id):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view()
-def collection_detail(request, pk:int):
-    return Response('Ok')
+# @api_view()
+# def collection_detail(request, pk:int):
+#     return Response('Ok')
 
 @api_view(['GET', 'POST'])
 def collection_list(request):
@@ -76,8 +76,8 @@ def collection_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def collection_detail(request, id: int):
-    collection = get_object_or_404(Collection, pk=id)
+def collection_detail(request, pk: int):
+    collection = get_object_or_404(Collection, pk=pk)
     if request.method == 'GET':
         serializer = CollectionSerializer(collection)
 
