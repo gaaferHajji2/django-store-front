@@ -69,7 +69,7 @@ def collection_list(request):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def collection_detail(request, id: int):
@@ -79,3 +79,19 @@ def collection_detail(request, id: int):
 
         return Response(serializer.data)
     
+    elif request.method == 'PUT':
+        serializer = CollectionSerializer(collection, data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        if collection.product_set.count() > 0:
+            return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        collection.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
