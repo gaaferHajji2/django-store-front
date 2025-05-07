@@ -58,6 +58,21 @@ class ProductDetail(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class CollectionList(APIView):
+    def get(self, request):
+        queryset = Collection.objects.annotate(products_count=Count('products')).all();
+        serializer = CollectionSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = CollectionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 # Create your views here.
 # @api_view(['GET', 'POST'])
 # def product_list(request):
@@ -74,7 +89,7 @@ class ProductDetail(APIView):
 
 #         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
-@api_view(['GET', 'PUT', 'DELETE'])
+# @api_view(['GET', 'PUT', 'DELETE'])
 # def product_detail(request, id):
 #     product = get_object_or_404(Product, pk=id)
 

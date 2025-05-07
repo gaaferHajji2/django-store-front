@@ -8,7 +8,7 @@ urlpatterns = [
 
     # path('collection/<int:pk>/', views.collection_detail, name='collection-detail')
 
-    path('collection/', views.collection_list),
+    path('collection/', views.CollectionList.as_view()),
 
     path('collection/<int:pk>/', views.collection_detail)
 ];
