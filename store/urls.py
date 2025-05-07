@@ -10,5 +10,5 @@ urlpatterns = [
 
     path('collection/', views.CollectionList.as_view()),
 
-    path('collection/<int:pk>/', views.collection_detail)
+    path('collection/<int:pk>/', views.CollectionDetail.as_view())
 ];
