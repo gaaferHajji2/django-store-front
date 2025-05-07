@@ -28,6 +28,9 @@ from .models import Product, Collection
 #         return product.unit_price * Decimal(1.1)
 
 class CollectionSerializer(serializers.ModelSerializer):
+
+    products_count = serializers.IntegerField(required=False)
+
     class Meta:
         model = Collection
         fields = ['id', 'title', 'products_count']
@@ -36,10 +39,6 @@ class CollectionSerializer(serializers.ModelSerializer):
 
     # def get_products_count(self, collection: Collection):
     #     return collection.products_count
-
-    products_count = serializers.IntegerField()
-
-
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
