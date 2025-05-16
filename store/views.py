@@ -64,7 +64,7 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
 
     #     return Response(serializer.data)
     
-    def delete(self, request, id: int):
+    def delete(self, request, pk: int):
         product = get_object_or_404(Product, pk=id)
 
         if product.orderitems.count() > 0:
