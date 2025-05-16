@@ -29,7 +29,7 @@ from .models import Product, Collection
 
 class CollectionSerializer(serializers.ModelSerializer):
 
-    products_count = serializers.IntegerField(required=False)
+    products_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Collection

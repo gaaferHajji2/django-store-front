@@ -10,7 +10,7 @@ from rest_framework import status
 
 from rest_framework.views import APIView
 
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 # from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
@@ -44,20 +44,25 @@ class ProductList(ListCreateAPIView):
 
     #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class ProductDetail(APIView):
-    def get(self, request, id: int):
-        product = get_object_or_404(Product, pk=id)
-        serializer = ProductSerializer(product, context={ 'request': request })
-        return Response(serializer.data)
+class ProductDetail(RetrieveUpdateDestroyAPIView):
+
+    queryset = Product.objects.all()
+
+    serializer_class = ProductSerializer
+
+    # def get(self, request, id: int):
+    #     product = get_object_or_404(Product, pk=id)
+    #     serializer = ProductSerializer(product, context={ 'request': request })
+    #     return Response(serializer.data)
     
-    def put(self, request, id: int):
-        product = get_object_or_404(Product, pk=id)
+    # def put(self, request, id: int):
+    #     product = get_object_or_404(Product, pk=id)
 
-        serializer = ProductSerializer(product, data = request.data);
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    #     serializer = ProductSerializer(product, data = request.data);
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        return Response(serializer.data)
+    #     return Response(serializer.data)
     
     def delete(self, request, id: int):
         product = get_object_or_404(Product, pk=id)
@@ -69,42 +74,52 @@ class ProductDetail(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class CollectionList(APIView):
-    def get(self, request):
-        queryset = Collection.objects.annotate(products_count=Count('products')).all();
-        serializer = CollectionSerializer(queryset, many=True)
+class CollectionList(ListCreateAPIView):
 
-        return Response(serializer.data)
+    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+
+    serializer_class = CollectionSerializer
+
+    # def get(self, request):
+    #     queryset = Collection.objects.annotate(products_count=Count('products')).all();
+    #     serializer = CollectionSerializer(queryset, many=True)
+
+    #     return Response(serializer.data)
     
-    def post(self, request):
-        serializer = CollectionSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    # def post(self, request):
+    #     serializer = CollectionSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class CollectionDetail(APIView):
-    def get(self, request, pk: int):
-        collection = get_object_or_404(
-            Collection.objects.annotate(products_count=Count('products')), 
-            pk=pk
-        )
+class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
-        serializer = CollectionSerializer(collection)
+    queryset = Product.objects.all()
 
-        return Response(serializer.data)
+    serializer_class = CollectionSerializer
+
+    # def get(self, request, pk: int):
+    #     collection = get_object_or_404(
+    #         Collection.objects.annotate(products_count=Count('products')), 
+    #         pk=pk
+    #     )
+
+    #     serializer = CollectionSerializer(collection)
+
+    #     return Response(serializer.data)
     
-    def put(self, request, pk: int):
-        collection = get_object_or_404(
-            Collection.objects.annotate(products_count=Count('products')), 
-            pk=pk
-        )
+    # def put(self, request, pk: int):
+    #     collection = get_object_or_404(
+    #         Collection.objects.annotate(products_count=Count('products')), 
+    #         pk=pk
+    #     )
 
-        serializer = CollectionSerializer(collection, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    #     serializer = CollectionSerializer(collection, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        return Response(serializer.data)
+    #     return Response(serializer.data)
     
     def delete(self, request, pk: int):
         collection = get_object_or_404(
