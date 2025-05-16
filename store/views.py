@@ -99,6 +99,8 @@ class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
     serializer_class = CollectionSerializer
 
+    # lookup_field = 'id'
+
     # def get(self, request, pk: int):
     #     collection = get_object_or_404(
     #         Collection.objects.annotate(products_count=Count('products')), 
