@@ -95,7 +95,7 @@ class CollectionList(ListCreateAPIView):
 
 class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
-    queryset = Product.objects.all()
+    queryset = Collection.objects.annotate(products_count=Count('products')).all()
 
     serializer_class = CollectionSerializer
 
