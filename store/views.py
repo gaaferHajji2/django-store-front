@@ -30,6 +30,9 @@ class ProductList(ListCreateAPIView):
     def get_serializer_class(self):
         return ProductSerializer
     
+    def get_serializer_context(self):
+        return { 'request': self.request }
+
     # def get(self, request):
     #     queryset = 
     #     serializer = ProductSerializer(queryset, many=True, context={ 'request': request })
