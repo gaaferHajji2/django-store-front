@@ -65,7 +65,7 @@ class ProductDetail(RetrieveUpdateDestroyAPIView):
     #     return Response(serializer.data)
     
     def delete(self, request, pk: int):
-        product = get_object_or_404(Product, pk=id)
+        product = get_object_or_404(Product, pk=pk)
 
         if product.orderitems.count() > 0:
             return Response({'error': 'product cannot be deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
