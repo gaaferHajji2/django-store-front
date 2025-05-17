@@ -25,7 +25,7 @@ from .models import Product, Collection
 from .serializers import ProductSerializer, CollectionSerializer
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.select_related('collection').all()
+    queryset = Product.objects.all()
 
     serializer_class = ProductSerializer
 
