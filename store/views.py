@@ -20,7 +20,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 from rest_framework.response import Response
 
-from .models import Product, Collection
+from .models import Product, Collection, OrderItem
 
 from .serializers import ProductSerializer, CollectionSerializer
 
@@ -32,15 +32,11 @@ class ProductViewSet(ModelViewSet):
     def get_serializer_context(self):
         return { 'request': self.request }
     
-    def delete(self, request, pk: int):
-        product = get_object_or_404(Product, pk=pk)
-
-        if product.orderitems.count() > 0:
+    def destroy(self, request, *args, **kwargs):
+        if OrderItem.objects.filter(product_id = kwargs['pk']).count() > 0:
             return Response({'error': 'product cannot be deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-        product.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return super().destroy(request, *args, *kwargs)
 
 
 # class ProductList(ListCreateAPIView):
@@ -100,18 +96,12 @@ class CollectionViewSet(ModelViewSet):
 
     serializer_class = CollectionSerializer
 
-    def delete(self, request, pk: int):
-        collection = get_object_or_404(
-            Collection.objects.annotate(products_count=Count('products')), 
-            pk=pk
-        )
+    def destroy(self, request, *args, **kwargs):
 
-        if collection.products.count() > 0:
+        if Product.objects.filter(collection_id=kwargs['pk']).count() > 0:
             return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-        collection.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return super().destroy(request, *args, **kwargs)
 
 
 # class CollectionList(ListCreateAPIView):
@@ -133,11 +123,11 @@ class CollectionViewSet(ModelViewSet):
 
     #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class CollectionDetail(RetrieveUpdateDestroyAPIView):
+# class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
-    queryset = Collection.objects.annotate(products_count=Count('products')).all()
+#     queryset = Collection.objects.annotate(products_count=Count('products')).all()
 
-    serializer_class = CollectionSerializer
+#     serializer_class = CollectionSerializer
 
     # lookup_field = 'id'
 
@@ -163,18 +153,18 @@ class CollectionDetail(RetrieveUpdateDestroyAPIView):
 
     #     return Response(serializer.data)
     
-    def delete(self, request, pk: int):
-        collection = get_object_or_404(
-            Collection.objects.annotate(products_count=Count('products')), 
-            pk=pk
-        )
+    # def delete(self, request, pk: int):
+    #     collection = get_object_or_404(
+    #         Collection.objects.annotate(products_count=Count('products')), 
+    #         pk=pk
+    #     )
 
-        if collection.products.count() > 0:
-            return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    #     if collection.products.count() > 0:
+    #         return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-        collection.delete()
+    #     collection.delete()
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Create your views here.
