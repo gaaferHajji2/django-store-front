@@ -1,4 +1,4 @@
-# from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 
 # from django.db.models import F
 
@@ -108,6 +108,23 @@ class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
 
     serializer_class = ReviewSerializer
+
+    def get_serializer_context(self):
+        return { 'product_id': self.kwargs['product_pk'] }
+    
+    def retrieve(self, request, *args, **kwargs):
+        queryset = get_object_or_404(Review, product_id=kwargs['product_pk'], pk=kwargs['pk'])
+
+        serializer = ReviewSerializer(queryset)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    
+    def list(self, request, *args, **kwargs):
+        queryset = Review.objects.filter(product_id=kwargs['product_pk'])
+
+        serializer = ReviewSerializer(queryset, many = True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
 # class CollectionList(ListCreateAPIView):
