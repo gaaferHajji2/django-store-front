@@ -4,15 +4,21 @@
 
 from rest_framework.routers import DefaultRouter
 
+from rest_framework_nested import routers
+
 # from pprint import pprint
 
 from . import views
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 
 router.register('products', views.ProductViewSet)
 
 router.register('collections', views.CollectionViewSet)
+
+products_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
+
+products_router.register('reviews', views.ReviewViewSet, basename='product-reviews')
 
 # pprint(router.urls)
 
@@ -27,4 +33,4 @@ router.register('collections', views.CollectionViewSet)
     # path('collection/<int:pk>/', views.CollectionDetail.as_view())
 # ];
 
-urlpatterns = router.urls
+urlpatterns = router.urls + products_router.urls
