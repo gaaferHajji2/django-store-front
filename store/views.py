@@ -24,6 +24,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Product, Collection, OrderItem, Review
 
+from .filters import ProductFilter
+
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
 
 class ProductViewSet(ModelViewSet):
@@ -33,7 +35,8 @@ class ProductViewSet(ModelViewSet):
 
     filter_backends = [DjangoFilterBackend]
 
-    filterset_fields = ['collection_id']
+    # filterset_fields = ['collection_id']
+    filterset_class = ProductFilter
 
     # def get_queryset(self):
     #     queryset = Product.objects.all()
