@@ -22,7 +22,7 @@ from rest_framework.response import Response
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 
-from rest_framework.pagination import PageNumberPagination
+# from rest_framework.pagination import PageNumberPagination
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -31,6 +31,8 @@ from .models import Product, Collection, OrderItem, Review
 from .filters import ProductFilter
 
 from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
+
+from .pagination import DefaultPagination
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -46,7 +48,7 @@ class ProductViewSet(ModelViewSet):
 
     ordering_fields = ['unit_price', 'last_update']
 
-    pagination_class = PageNumberPagination
+    pagination_class = DefaultPagination
 
     # def get_queryset(self):
     #     queryset = Product.objects.all()
