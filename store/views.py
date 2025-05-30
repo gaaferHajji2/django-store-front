@@ -22,6 +22,8 @@ from rest_framework.response import Response
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 
+from rest_framework.pagination import PageNumberPagination
+
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Product, Collection, OrderItem, Review
@@ -43,6 +45,8 @@ class ProductViewSet(ModelViewSet):
     search_fields = ['title', 'description']
 
     ordering_fields = ['unit_price', 'last_update']
+
+    pagination_class = PageNumberPagination
 
     # def get_queryset(self):
     #     queryset = Product.objects.all()
