@@ -2,6 +2,8 @@ from django.db import models
 
 from django.core.validators import MinValueValidator
 
+from uuid import uuid4
+
 class Promotion(models.Model):
     description = models.CharField(max_length=255)
     discount    = models.FloatField()
@@ -105,6 +107,7 @@ class Address(models.Model):
     customer = models.OneToOneField(to=Customer, on_delete=models.CASCADE, primary_key=True)
 
 class Cart(models.Model):
+    id = models.UUIDField(primary_key = True, default=uuid4)
     created_at = models.DateTimeField(auto_now_add=True)
 
 class CartItem(models.Model):
