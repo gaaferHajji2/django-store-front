@@ -158,7 +158,10 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
+# from rest_framework.pagination import PageNumberPagination
+
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination'
 }
