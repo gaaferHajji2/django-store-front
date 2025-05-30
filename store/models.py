@@ -111,10 +111,14 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
 
     quantity = models.PositiveSmallIntegerField()
+
+    class Meta:
+        # Here We May Have Multiple Conditions On Unique Constraint, Then We Define List Of Lists
+        unique_together = [['cart', 'product']]
 
 class Review(models.Model):
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE, related_name='reviews')
