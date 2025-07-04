@@ -1,3 +1,5 @@
+from dataclasses import fields
+from pyexpat import model
 from rest_framework import serializers
 
 from decimal import Decimal
@@ -62,9 +64,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 
         return Review.objects.create(product_id=product_id, **validated_data)
 
+class SimpleProductSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [ 'id', 'title', 'unit_price' ]
+
 class CartItemSerializer(serializers.ModelSerializer):
 
-    product = ProductSerializer()
+    product = SimpleProductSerialzier()
 
     class Meta:
         model = CartItem
