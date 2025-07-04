@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from decimal import Decimal
 
-from .models import Product, Collection, Review, Cart
+from .models import CartItem, Product, Collection, Review, Cart
 
 # class CollectionSerializer(serializers.Serializer):
 #     id = serializers.IntegerField()
@@ -62,11 +62,21 @@ class ReviewSerializer(serializers.ModelSerializer):
 
         return Review.objects.create(product_id=product_id, **validated_data)
 
+class CartItemSerializer(serializers.ModelSerializer):
+
+    product = ProductSerializer()
+
+    class Meta:
+        model = CartItem
+        fields= ['id', 'product', 'quantity']
+
 class CartSerializer(serializers.ModelSerializer):
 
     id = serializers.UUIDField(read_only=True)
+    items = CartItemSerializer(many=True)
 
     class Meta:
         model = Cart
         # Here We Define items Inside The CartItem-Model AS The Related Name
         fields = [ 'id', 'items']
+

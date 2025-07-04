@@ -2,6 +2,7 @@
 
 # from django.db.models import F
 
+from typing import override
 from django.db.models.aggregates import Count
 
 # from django.http import HttpResponse
@@ -144,7 +145,7 @@ class ReviewViewSet(ModelViewSet):
     # queryset = Review.objects.all()
 
     serializer_class = ReviewSerializer
-
+    
     def get_queryset(self):
         return Review.objects.filter(product_id = self.kwargs['product_pk'])
 
