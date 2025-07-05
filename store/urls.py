@@ -2,6 +2,7 @@
 
 # from rest_framework.routers import SimpleRouter
 
+from codecs import lookup
 from rest_framework.routers import DefaultRouter
 
 from rest_framework_nested import routers
@@ -22,6 +23,9 @@ products_router = routers.NestedDefaultRouter(router, 'products', lookup='produc
 
 products_router.register('reviews', views.ReviewViewSet, basename='product-reviews')
 
+carts_router = routers.NestedDefaultRouter(router, 'carts', lookup='cart')
+carts_router.register('items', views.CartItemViewSet, basename='cart-items')
+
 # pprint(router.urls)
 
 # urlpatterns = [
@@ -35,4 +39,4 @@ products_router.register('reviews', views.ReviewViewSet, basename='product-revie
     # path('collection/<int:pk>/', views.CollectionDetail.as_view())
 # ];
 
-urlpatterns = router.urls + products_router.urls
+urlpatterns = router.urls + products_router.urls + carts_router.urls
