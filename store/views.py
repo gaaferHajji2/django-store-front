@@ -164,6 +164,7 @@ class CartItemViewSet(ModelViewSet):
 
     # serializer_class = CartItemSerializer
 
+    # This list must be in lower case
     http_method_names = ['get', 'post', 'patch', 'delete'];
 
     def get_serializer_class(self):
