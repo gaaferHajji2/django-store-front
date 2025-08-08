@@ -45,7 +45,7 @@ class Product(models.Model):
     promotions = models.ManyToManyField(to=Promotion, blank=True)
 
     def __str__(self):
-        return str(self.id) + ' - ' + self.title
+        return str(self.id) + ' - ' + self.title # type: ignore
     
     class Meta:
         ordering = ['title']
