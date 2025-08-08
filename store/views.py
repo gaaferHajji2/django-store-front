@@ -146,7 +146,7 @@ class ReviewViewSet(ModelViewSet):
 
     serializer_class = ReviewSerializer
     
-    def get_queryset(self):
+    def get_queryset(self): # type: ignore
         return Review.objects.filter(product_id = self.kwargs['product_pk'])
 
     def get_serializer_context(self):
@@ -167,7 +167,7 @@ class CartItemViewSet(ModelViewSet):
     # This list must be in lower case
     http_method_names = ['get', 'post', 'patch', 'delete'];
 
-    def get_serializer_class(self):
+    def get_serializer_class(self): # type: ignore
         if self.request.method == 'POST':
             return AddCartItemSerialzier
         
@@ -176,7 +176,7 @@ class CartItemViewSet(ModelViewSet):
         
         return CartItemSerializer
 
-    def get_queryset(self):
+    def get_queryset(self): # type: ignore
         return CartItem.objects.filter(cart_id = self.kwargs['cart_pk']).select_related('product')
     
     def get_serializer_context(self):

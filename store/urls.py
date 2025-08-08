@@ -11,7 +11,7 @@ from rest_framework_nested import routers
 
 from . import views
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter() # type: ignore
 
 router.register('products', views.ProductViewSet, basename='products')
 
