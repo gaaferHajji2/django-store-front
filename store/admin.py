@@ -6,11 +6,9 @@ from django.db.models import QuerySet
 
 from django.db.models.aggregates import Count
 
-from django.utils.html import format_html, urlencode
+from django.utils.html import format_html, urlencode # type: ignore
 
 from django.urls import reverse
-
-import tags.models
 
 from . import models
 
@@ -111,6 +109,8 @@ class CustomerAdmin(admin.ModelAdmin):
     list_editable = [ 'membership' ]
 
     list_per_page = 10
+    
+    list_select_related = ['user']
 
     search_fields = [ 'first_name__istartswith', 'last_name__istartswith' ]
 
