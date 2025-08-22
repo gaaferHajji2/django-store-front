@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+    'djoser',
+
     "debug_toolbar",
 
     # ! This Line Added By Jafar Loka
