@@ -105,6 +105,11 @@ class Order(models.Model):
 
     customer = models.ForeignKey(to=Customer, on_delete=models.PROTECT)
 
+    class Meta:
+        permissions= [
+            ('cancel_order', 'can cancel order')
+        ]
+
 class OrderItem(models.Model):
     order = models.ForeignKey(to=Order, on_delete=models.PROTECT)
     product = models.ForeignKey(to=Product, on_delete=models.PROTECT, related_name='orderitems')
