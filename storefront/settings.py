@@ -39,11 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_filters',
-
     'rest_framework',
-
     'djoser',
-
     "debug_toolbar",
 
     # ! This Line Added By Jafar Loka
