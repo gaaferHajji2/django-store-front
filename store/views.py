@@ -9,7 +9,7 @@ from django.db.models.aggregates import Count
 
 from rest_framework import status
 
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
@@ -29,11 +29,11 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import CartItem, Product, Collection, OrderItem, Review, Cart
+from .models import CartItem, Customer, Product, Collection, OrderItem, Review, Cart
 
 from .filters import ProductFilter
 
-from .serializers import AddCartItemSerialzier, CartItemSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, UpdateCartItemSerializer
+from .serializers import AddCartItemSerialzier, CartItemSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, UpdateCartItemSerializer
 
 from .pagination import DefaultPagination
 
@@ -257,3 +257,7 @@ class CartItemViewSet(ModelViewSet):
 
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def collection_detail(request, pk: int):
+
+class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer

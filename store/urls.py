@@ -2,9 +2,6 @@
 
 # from rest_framework.routers import SimpleRouter
 
-from codecs import lookup
-from rest_framework.routers import DefaultRouter
-
 from rest_framework_nested import routers
 
 # from pprint import pprint
@@ -18,6 +15,8 @@ router.register('products', views.ProductViewSet, basename='products')
 router.register('collections', views.CollectionViewSet)
 
 router.register('carts', views.CartViewSet)
+
+router.register('customers', views.CustomerViewSet)
 
 products_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 
