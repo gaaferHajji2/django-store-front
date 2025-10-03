@@ -29,7 +29,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from core import serializers
+# from core import serializers
 
 from .models import CartItem, Customer, Product, Collection, OrderItem, Review, Cart
 
