@@ -264,10 +264,14 @@ class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Ge
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-    @action(detail=False)
+    @action(detail=False, methods=['GET', 'PUT'])
     def me(self, request):
         customer = Customer.objects.select_related('user').get(user_id = request.user.id)
-
-        serializers = CustomerSerializer(customer)
-
-        return Response(serializers.data)
+        if request.method == 'GET':
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = CustomerSerializer(customer, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
