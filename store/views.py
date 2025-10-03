@@ -8,11 +8,11 @@ from django.db.models.aggregates import Count
 
 from rest_framework import status
 
-from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
 
 # from rest_framework.views import APIView
 
@@ -257,7 +257,7 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [DjangoModelPermissions]
 
     # here we return Objects not classes
     # def get_permissions(self):
