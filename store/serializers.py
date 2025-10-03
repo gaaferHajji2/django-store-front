@@ -7,6 +7,8 @@ from decimal import Decimal
 
 from .models import CartItem, Customer, Product, Collection, Review, Cart
 
+from core.serializers import UserSerializer
+
 # class CollectionSerializer(serializers.Serializer):
 #     id = serializers.IntegerField()
 #     title = serializers.CharField(max_length= 255)
@@ -140,6 +142,8 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     user_id = serializers.IntegerField()
 
+    user = UserSerializer()
+
     class Meta:
         model = Customer
-        fields = ['id', 'user_id', 'phone', 'birth_date', 'membership']
+        fields = ['id', 'user_id', 'phone', 'birth_date', 'membership', 'user']

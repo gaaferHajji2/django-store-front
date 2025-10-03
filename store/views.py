@@ -2,7 +2,6 @@
 
 # from django.db.models import F
 
-from typing import override
 from django.db.models.aggregates import Count
 
 # from django.http import HttpResponse
@@ -19,7 +18,8 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 # from rest_framework.mixins import ListModelMixin, CreateModelMixin
 
-# from rest_framework.decorators import api_view
+# from rest_framework.decorators import 
+from rest_framework.decorators import action
 
 from rest_framework.response import Response
 
@@ -28,6 +28,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 # from rest_framework.pagination import PageNumberPagination
 
 from django_filters.rest_framework import DjangoFilterBackend
+
+from core import serializers
 
 from .models import CartItem, Customer, Product, Collection, OrderItem, Review, Cart
 
@@ -261,3 +263,11 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+
+    @action(detail=False)
+    def me(self, request):
+        customer = Customer.objects.select_related('user').get(user_id = request.user.id)
+
+        serializers = CustomerSerializer(customer)
+
+        return Response(serializers.data)
