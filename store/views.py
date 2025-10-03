@@ -12,7 +12,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyM
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 
 # from rest_framework.views import APIView
 
@@ -31,6 +31,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from store.permissions import IsAdminOrReadOnly
+
 # from core import serializers
 
 from .models import CartItem, Customer, Product, Collection, OrderItem, Review, Cart
@@ -43,19 +45,14 @@ from .pagination import DefaultPagination
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
-
     serializer_class = ProductSerializer
-
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-
     # filterset_fields = ['collection_id']
     filterset_class = ProductFilter
-
     search_fields = ['title', 'description']
-
     ordering_fields = ['unit_price', 'last_update']
-
     pagination_class = DefaultPagination
+    permission_classes = [IsAdminOrReadOnly]
 
     # def get_queryset(self):
     #     queryset = Product.objects.all()
@@ -134,22 +131,17 @@ class ProductViewSet(ModelViewSet):
 
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(products_count=Count('products')).all()
-
     serializer_class = CollectionSerializer
-
+    permission_classes = [IsAdminOrReadOnly]
     def destroy(self, request, *args, **kwargs):
-
         if Product.objects.filter(collection_id=kwargs['pk']).count() > 0:
             return Response({'error': 'Collection Cannot Be Deleted'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
         return super().destroy(request, *args, **kwargs)
 
 class ReviewViewSet(ModelViewSet):
     
     # queryset = Review.objects.all()
-
     serializer_class = ReviewSerializer
-    
     def get_queryset(self): # type: ignore
         return Review.objects.filter(product_id = self.kwargs['product_pk'])
 
@@ -262,20 +254,20 @@ class CartItemViewSet(ModelViewSet):
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def collection_detail(request, pk: int):
 
-class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
+class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     # here we return Objects not classes
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [AllowAny()]
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
         
-        return [IsAuthenticated()]
+    #     return [IsAuthenticated()]
 
     # Here also we can add permission_classes to action-decorator as list
-    @action(detail=False, methods=['GET', 'PUT'])
+    @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
     def me(self, request):
         # customer = Customer.objects.select_related('user').get(user_id = request.user.id)
         customer = get_object_or_404(Customer.objects.select_related('user'), user_id=request.user.id)
