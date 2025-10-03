@@ -1,4 +1,4 @@
-# from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 
 # from django.db.models import F
 
@@ -266,7 +266,9 @@ class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, Ge
 
     @action(detail=False, methods=['GET', 'PUT'])
     def me(self, request):
-        customer = Customer.objects.select_related('user').get(user_id = request.user.id)
+        # customer = Customer.objects.select_related('user').get(user_id = request.user.id)
+        customer = get_object_or_404(Customer.objects.select_related('user'), user_id=request.user.id)
+
         if request.method == 'GET':
             serializer = CustomerSerializer(customer)
             return Response(serializer.data)
