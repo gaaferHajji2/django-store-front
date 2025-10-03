@@ -12,6 +12,8 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyM
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
 # from rest_framework.views import APIView
 
 # from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
@@ -263,7 +265,16 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
 
+    # here we return Objects not classes
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        
+        return [IsAuthenticated()]
+
+    # Here also we can add permission_classes to action-decorator as list
     @action(detail=False, methods=['GET', 'PUT'])
     def me(self, request):
         # customer = Customer.objects.select_related('user').get(user_id = request.user.id)
