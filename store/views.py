@@ -31,7 +31,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from store.permissions import IsAdminOrReadOnly, IsCustomerServiceOnly
+from core.serializers import UserSerializer
+from store.permissions import CanViewHistory, IsAdminOrReadOnly, IsCustomerServiceOnly
 
 # from core import serializers
 
@@ -265,6 +266,13 @@ class CustomerViewSet(ModelViewSet):
     #         return [AllowAny()]
         
     #     return [IsAuthenticated()]
+
+    @action(detail=True, permission_classes=[CanViewHistory])
+    def view_history(self, request, pk):
+        return Response({
+            "user": UserSerializer(request.user).data,
+            "pk": pk
+        })
 
     # Here also we can add permission_classes to action-decorator as list
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
