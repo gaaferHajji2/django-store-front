@@ -36,11 +36,11 @@ from store.permissions import CanViewHistory, IsAdminOrReadOnly, IsCustomerServi
 
 # from core import serializers
 
-from .models import CartItem, Customer, Product, Collection, OrderItem, Review, Cart
+from .models import CartItem, Customer, Order, Product, Collection, OrderItem, Review, Cart
 
 from .filters import ProductFilter
 
-from .serializers import AddCartItemSerialzier, CartItemSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, UpdateCartItemSerializer
+from .serializers import AddCartItemSerialzier, CartItemSerializer, CustomerSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, UpdateCartItemSerializer
 
 from .pagination import DefaultPagination
 
@@ -287,3 +287,7 @@ class CustomerViewSet(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.select_related('customer').all()
+    serializer_class = OrderSerializer
