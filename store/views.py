@@ -12,7 +12,7 @@ from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyM
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from rest_framework.permissions import IsAuthenticated, DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated
 
 # from rest_framework.views import APIView
 
@@ -31,7 +31,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from store.permissions import IsAdminOrReadOnly
+from store.permissions import IsAdminOrReadOnly, IsCustomerServiceOnly
 
 # from core import serializers
 
@@ -257,7 +257,7 @@ class CartItemViewSet(ModelViewSet):
 class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [DjangoModelPermissions]
+    permission_classes = [IsCustomerServiceOnly]
 
     # here we return Objects not classes
     # def get_permissions(self):
@@ -271,7 +271,6 @@ class CustomerViewSet(ModelViewSet):
     def me(self, request):
         # customer = Customer.objects.select_related('user').get(user_id = request.user.id)
         customer = get_object_or_404(Customer.objects.select_related('user'), user_id=request.user.id)
-
         if request.method == 'GET':
             serializer = CustomerSerializer(customer)
             return Response(serializer.data)
