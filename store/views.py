@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404
 
+from django.db import models
+
 # from django.db.models import F
 
 from django.db.models.aggregates import Count
@@ -289,5 +291,10 @@ class CustomerViewSet(ModelViewSet):
             return Response(serializer.data)
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.select_related('customer').all()
+    # queryset = Order.objects.prefetch_related('items').all()
     serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self): # type: ignore
+        return Order.objects.prefetch_related(
+            models.Prefetch('items', queryset=OrderItem.objects.select_related('product'))
+        )
