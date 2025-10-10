@@ -145,6 +145,12 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ['id', 'user_id', 'phone', 'birth_date', 'membership', 'user']
 
+class SimpleCustomerSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(read_only = True)
+    class Meta:
+        model = Customer
+        fields = ['id', 'user_id', 'phone', 'birth_date', 'membership']
+
 class OrderItemSerializer(serializers.ModelSerializer):
     product = SimpleProductSerialzier()
     class Meta:
@@ -152,7 +158,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['id', 'product', 'quantity', 'unit_price']
 
 class OrderSerializer(serializers.ModelSerializer):
-    # customer = CustomerSerializer(read_only=True)
+    customer = SimpleCustomerSerializer(read_only=True)
     items = OrderItemSerializer(many=True)
     
     class Meta:

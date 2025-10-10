@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import get_object_or_404
 
 from django.db import models
@@ -295,6 +296,14 @@ class OrderViewSet(ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
     def get_queryset(self): # type: ignore
-        return Order.objects.prefetch_related(
-            models.Prefetch('items', queryset=OrderItem.objects.select_related('product'))
-        )
+        user = self.request.user
+        if user.is_staff:
+            return Order.objects.select_related('customer').prefetch_related(
+                models.Prefetch('items', queryset=OrderItem.objects.select_related('product'))
+            )
+        else:
+            t1, _= Customer.objects.get_or_create(user_id = user.id) # type: ignore
+
+            return Order.objects.filter(customer_id=t1.id).select_related('customer').prefetch_related( # type: ignore
+                models.Prefetch('items', queryset=OrderItem.objects.select_related('product'))
+            )
