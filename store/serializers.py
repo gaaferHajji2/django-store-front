@@ -203,9 +203,9 @@ class CreateOrderSerializer(serializers.Serializer):
     cart_id = serializers.UUIDField()
 
     def save(self, **kwargs):
-        print(self.validated_data["cart_id"])  # type: ignore
-        print(self.context["user_id"])
-        print(self.context["is_staff"])
+        # print(self.validated_data["cart_id"])  # type: ignore
+        # print(self.context["user_id"])
+        # print(self.context["is_staff"])
 
         customer, _ = Customer.objects.get_or_create(user_id=self.context["user_id"])
 
@@ -226,7 +226,7 @@ class CreateOrderSerializer(serializers.Serializer):
 
             OrderItem.objects.bulk_create(order_items)
 
-            res = Cart.objects.filter(id = self.validated_data['cart_id']).delete() # type: ignore
-            print(res)
+            Cart.objects.filter(id = self.validated_data['cart_id']).delete() # type: ignore
+            # print(res)
 
             return order
