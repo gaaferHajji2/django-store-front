@@ -226,7 +226,7 @@ class CreateOrderSerializer(serializers.Serializer):
 
             OrderItem.objects.bulk_create(order_items)
 
-            Cart.objects.filter(id = self.validated_data['cart_id']).delete() # type: ignore
+            Cart.objects.filter(pk = self.validated_data['cart_id']).delete() # type: ignore
             # print(res)
 
             return order

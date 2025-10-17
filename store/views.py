@@ -300,8 +300,8 @@ class OrderViewSet(ModelViewSet):
             return CreateOrderSerializer
         return OrderSerializer
 
-    def get_serializer_context(self):
-        return { 'user_id': self.request.user.id, 'is_staff': self.request.user.is_staff } # type: ignore
+    # def get_serializer_context(self):
+    #     return { 'user_id': self.request.user.id, 'is_staff': self.request.user.is_staff } # type: ignore
 
     def get_queryset(self): # type: ignore
         user = self.request.user
@@ -315,3 +315,15 @@ class OrderViewSet(ModelViewSet):
             return Order.objects.filter(customer_id=t1.id).select_related('customer').prefetch_related( # type: ignore
                 models.Prefetch('items', queryset=OrderItem.objects.select_related('product'))
             )
+    def create(self, request, *args, **kwargs):
+        # in this way we can't call the get_serializer_context to access user_id
+        # we must pass it throw the method
+        serializer = CreateOrderSerializer(
+            data = request.data, 
+            context={'user_id': self.request.user.id, 'is_staff': self.request.user.is_staff}
+        ) # type: ignore
+        serializer.is_valid(raise_exception=True)
+        order = serializer.save()
+        serializer = OrderSerializer(order)
+
+        return Response(data = serializer.data, status=201)
