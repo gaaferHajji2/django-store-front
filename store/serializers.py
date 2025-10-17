@@ -205,6 +205,10 @@ class CreateOrderSerializer(serializers.Serializer):
     def validate_cart_id(self, cart_id):
         if not Cart.objects.filter(pk=cart_id).exists():
             raise serializers.ValidationError(detail="Cart Not Found" )
+
+        if CartItem.objects.filter(cart_id = cart_id).count() == 0 :
+            raise serializers.ValidationError("No CartItems found for this cart")
+
         return cart_id
 
     def save(self, **kwargs):
