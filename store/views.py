@@ -19,7 +19,7 @@ from rest_framework.mixins import (
 
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 # from rest_framework.views import APIView
 
@@ -67,6 +67,7 @@ from .serializers import (
     ReviewSerializer,
     CartSerializer,
     UpdateCartItemSerializer,
+    UpdateOrderSerializer,
 )
 
 from .pagination import DefaultPagination
@@ -331,11 +332,20 @@ class CustomerViewSet(ModelViewSet):
 
 class OrderViewSet(ModelViewSet):
     # queryset = Order.objects.prefetch_related('items').all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+
+    http_method_names = ["get", "post", "patch", "delete"]
+
+    def get_permissions(self):
+        if self.request.method in ["PATCH", "DELETE"]:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
 
     def get_serializer_class(self, *args, **kwargs):  # type: ignore
         if self.request.method == "POST":
             return CreateOrderSerializer
+        elif self.request.method == "PATCH":
+            return UpdateOrderSerializer
         return OrderSerializer
 
     # def get_serializer_context(self):
@@ -353,9 +363,9 @@ class OrderViewSet(ModelViewSet):
             t1, _ = Customer.objects.get_or_create(user_id=user.id)  # type: ignore
 
             return (
-                Order.objects.filter(customer_id=t1.id)
+                Order.objects.filter(customer_id=t1.id) # type: ignore
                 .select_related("customer")
-                .prefetch_related(  # type: ignore
+                .prefetch_related(  
                     models.Prefetch(
                         "items", queryset=OrderItem.objects.select_related("product")
                     )

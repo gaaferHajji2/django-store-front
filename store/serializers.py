@@ -1,3 +1,4 @@
+from pyexpat import model
 from rest_framework import serializers
 
 from django.db import transaction
@@ -239,3 +240,8 @@ class CreateOrderSerializer(serializers.Serializer):
             # print(res)
 
             return order
+
+class UpdateOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['payment_status']
