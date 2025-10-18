@@ -1,9 +1,7 @@
-from pyexpat import model
 from rest_framework import serializers
-
 from django.db import transaction
-
 from decimal import Decimal
+from store.signals import order_created
 
 from .models import (
     CartItem,
@@ -237,7 +235,10 @@ class CreateOrderSerializer(serializers.Serializer):
             OrderItem.objects.bulk_create(order_items)
 
             Cart.objects.filter(pk = self.validated_data['cart_id']).delete() # type: ignore
-            # print(res)
+
+            print(self.__class__)
+            
+            order_created.send_robust(self.__class__, order=order)
 
             return order
 
