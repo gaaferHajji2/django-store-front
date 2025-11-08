@@ -28,7 +28,6 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from core.serializers import UserSerializer
 from store.permissions import CanViewHistory, IsAdminOrReadOnly, IsCustomerServiceOnly
-from rest_framework.pagination import PageNumberPagination
 
 # from core import serializers
 
@@ -39,6 +38,7 @@ from .models import (
     Product,
     Collection,
     OrderItem,
+    ProductImage,
     Review,
     Cart,
 )
@@ -57,6 +57,7 @@ from .serializers import (
     CartSerializer,
     UpdateCartItemSerializer,
     UpdateOrderSerializer,
+    ProductImageSerializer
 )
 
 from .pagination import DefaultPagination
@@ -380,3 +381,14 @@ class OrderViewSet(ModelViewSet):
         )
 
         return Response(data=serializer.data, status=201)
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+
+    def get_serializer_context(self):
+        return {
+            'product_id': self.kwargs['product_pk']
+        }
+
+    def get_queryset(self): # type: ignore
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk']).all()
