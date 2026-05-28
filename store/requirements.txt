@@ -11,4 +11,7 @@ PyJWT
 social-auth-app-Django
 social-auth-core
 django-cors-headers
-django-mail-templated
+redis
+celery 
+pywin32
+eventlet
