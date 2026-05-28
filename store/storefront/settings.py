@@ -43,17 +43,13 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'djoser',
-    "debug_toolbar",
-    'mail_templated',
-
+    'debug_toolbar',
     # ! This Line Added By Jafar Loka
     'playground',
     'store',
     'tags',
     'likes',
     'core',
-
-
 ]
 
 MIDDLEWARE = [
