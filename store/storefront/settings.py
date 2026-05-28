@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     "debug_toolbar",
+    'mail_templated',
 
     # ! This Line Added By Jafar Loka
     'playground',
@@ -51,6 +52,8 @@ INSTALLED_APPS = [
     'tags',
     'likes',
     'core',
+
+
 ]
 
 MIDDLEWARE = [
