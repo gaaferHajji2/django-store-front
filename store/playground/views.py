@@ -6,14 +6,10 @@ from django.db.models.aggregates import Count, Sum, Max, Min, Avg
 from django.db.models.functions import Concat
 from store.models import Product, OrderItem, Order, Customer, Collection
 from tags.models import TaggedItem
-from django.core.mail import EmailMessage, send_mail, mail_admins, BadHeaderError
+from django.core.mail import EmailMessage, BadHeaderError
 
 # Create your views here.
 def say_hello(request):
-    # return HttpResponse('Hello World') 
-
-    # query_set = Product.objects.all() 
-
     try:
         # send_mail("Jafar Loka", "Hello From Jafar Loka", "jafar@loka.com", ['jafar+1@loka.com'])
         # mail_admins('Jafar Loka-01', 'Jafar Loka', html_message='<h1>My Name is Jafar Loka</h1>')
